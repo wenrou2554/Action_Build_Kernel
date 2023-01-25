@@ -4,7 +4,7 @@ export ARCH=arm64
 #export CROSS_COMPILE_ARM32=$GITHUB_WORKSPACE/kernel/tool/arm/bin/arm-linux-androideabi-
 
 
-KERNEL_DEFCONFIG=alioth_lmperf_defconfig
+KERNEL_DEFCONFIG=vendor/alioth_defconfig
 
 
 
