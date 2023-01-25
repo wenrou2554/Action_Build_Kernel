@@ -12,7 +12,7 @@ KERNEL_DEFCONFIG=alioth_lmperf_defconfig
 
 
 
-
+sudo apt-get install gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi
 
 
 BUILD_START=$(date +"%s")
