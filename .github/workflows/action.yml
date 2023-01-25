@@ -46,6 +46,8 @@ jobs:
           sudo apt install -y libssl-dev libwxgtk3.0-gtk3-dev libxml2 libxml2-utils lzop pngcrush
 
           sudo apt install -y schedtool squashfs-tools xsltproc zip zlib1g-dev unzip python2 python-is-python3
+          
+          sudo apt-get install gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi
 
 
  
@@ -61,9 +63,9 @@ jobs:
 
       - name: Build kernel
         run: |
-          sudo mv build.sh $GITHUB_WORKSPACE/kernel
+          sudo mv build.sh $GITHUB_WORKSPACE/kernel/make.sh
           cd $GITHUB_WORKSPACE/kernel
-          bash ./build.sh
+          chmod a+x make.sh && bash make.sh
 
       - name: Upload to Release
         uses: ncipollo/release-action@v1
