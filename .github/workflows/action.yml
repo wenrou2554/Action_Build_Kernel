@@ -4,9 +4,9 @@ name: Action_Kernel
 on:
 
   push:
-    branches: [ GCC-4.9 ]
+    branches: [ alioth ]
   pull_request:
-    branches: [ GCC-4.9 ]
+    branches: [ alioth ]
 
 
 
@@ -15,7 +15,7 @@ jobs:
 
   build:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
 
     steps:
@@ -35,18 +35,33 @@ jobs:
           required "${{ steps.config.outputs.branch_name }}" "BRANCH_NAME config"
           required "${{ steps.config.outputs.kernel_url }}" "KERNEL_URL config"
  
-      - name: Git kernel
+      - name: Apt install
+        run: |
+          sudo apt install -y bc bison build-essential curl flex g++-multilib gcc-multilib python3
+
+          sudo apt install -y git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev
+
+          sudo apt install -y lib32z1-dev liblz4-tool libncurses5 libncurses5-dev libsdl1.2-dev
+
+          sudo apt install -y libssl-dev libwxgtk3.0-dev libxml2 libxml2-utils lzop pngcrush
+
+          sudo apt install -y schedtool squashfs-tools xsltproc zip zlib1g-dev unzip python2 python-is-python3
+
+
+ 
+      - name: Git kernel source
         run: |
           git clone "${{ steps.config.outputs.kernel_url }}" -b "${{ steps.config.outputs.branch_name }}" kernel
 
-      - name: Setup Environment
+      - name: Setup environment
         run: |
+
           cd $GITHUB_WORKSPACE/kernel
           git clone https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9 -b lineage-18.1 tool/aarch
           git clone https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9 -b lineage-18.1 tool/arm
-          sh -c "$(curl -sSL https://github.com/akhilnarang/scripts/raw/master/setup/android_build_env.sh/)"
 
-      - name: make kernel
+
+      - name: Build kernel
         run: |
           sudo mv build.sh $GITHUB_WORKSPACE/kernel
           cd $GITHUB_WORKSPACE/kernel
